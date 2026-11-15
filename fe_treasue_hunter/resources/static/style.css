@@ -20,15 +20,22 @@ form {
     border: 1px;
     border-style: solid;
     background-size: 125px 125px;
-    background-color: lightgreen;
+    
 }
 
 .skull {
-    background-image: url("Skull.svg");
+    background-image: url("koponya.png");
+    background-color: darkred;
 }
 .treasure {
-    background-image: url("Treasure_chest_with_gold_coins.svg");
+    background-image: url("kincseslada.png");
+    background-color: gold;
 }
 .empty {
     background-color: gray;
+}
+
+.covered {
+    background-color: gainsboro;
+    background-image: none;
 }
