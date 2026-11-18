@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import lf.sb_treasure_hunter_rest.dto.FinishRequestDTO;
 import lf.sb_treasure_hunter_rest.dto.LoginDTO;
-import lf.sb_treasure_hunter_rest.dto.SimpleResponseDTO;
+import lf.sb_treasure_hunter_rest.dto.UserResponseDTO;
 import lf.sb_treasure_hunter_rest.service.AppService;
 
 @CrossOrigin("*")
@@ -24,12 +25,21 @@ public class AppController {
 	}
 	
 	@PostMapping("/user/login")
-	public ResponseEntity<SimpleResponseDTO> getLoginUser(
+	public ResponseEntity<UserResponseDTO> getLoginUser(
 			@RequestBody LoginDTO loginDTO
 			) {
 		
-		SimpleResponseDTO response = service.getLoginUser(loginDTO);
+		UserResponseDTO response = service.getLoginUser(loginDTO);
 		
 		return ResponseEntity.ok(response);
+	}
+	
+	@PostMapping("/finish")
+	public ResponseEntity<UserResponseDTO> finishGame(
+			@RequestBody FinishRequestDTO finishRequestDTO){
+		
+		UserResponseDTO dto = service.finishGame(finishRequestDTO);
+		
+		return ResponseEntity.ok(dto);
 	}
 }

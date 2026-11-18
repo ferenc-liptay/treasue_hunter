@@ -5,15 +5,15 @@
         <script src="../static/myscript.js"></script>
     </head>
     <body>
-        <form id="loginForm">
-            <label>Name:
-                <input type="text" name="username">
-            </label>
-            <label>Password:
-                <input type="password" name="password">
-            </label>
-            <input type="submit" value="Login">
-        </form>
+        
+            <label for="username">Name:</label>
+                <input type="text" id="username">
+           
+            <label for="password">Password:</label>
+                <input type="password" id="password">
+            
+            <button id="login">Login</button>
+        
 
         <div id="gameTable">
         <div class="row">
@@ -56,5 +56,9 @@
             <div class="cell"></div>
         </div>
     </div>
+    <p id="name">Username</p>
+    <p id="lives">Lives</p>
+    <p id="record">Best record</p>
+    <p id="steps"></p>
     </body>
 </html>

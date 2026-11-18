@@ -1,9 +1,11 @@
 let gameFinished = false;
+let stepsCounter = 0;
+let userId = null;
 
 window.onload = function() {
     
-    let loginPostElement = document.getElementById("loginForm");
-    loginPostElement.onsubmit = loginHandler;
+    let loginButton = document.getElementById("login");
+    loginButton.onclick = loginHandler;
 
     let cellArray = document.getElementsByClassName("cell");
     
@@ -56,24 +58,28 @@ function clickHandler(cell){
 
        if(cell.classList.contains("covered")){
             cell.classList.remove("covered");
+            stepsCounter++;
 
             if(cell.classList.contains("skull")){
+                endGameRequest(false);
                 alert("Game Over")
                 gameFinished = true;
 
        } else if(cell.classList.contains("treasure")){
-                alert("Gyozelem!");
+                endGameRequest(true);
+                alert("Win!");
                 gameFinished = true;
        }
+            
+            document.getElementById("steps").innerHTML = stepsCounter;
        }
 
     }
 }
 
 function loginHandler(event){
-    event.preventDefault();
-    let userNameElement = document.getElementsByName("username")[0];
-    let passwordElement = document.getElementsByName("password")[0];
+    let userNameElement = document.getElementById("username");
+    let passwordElement = document.getElementById("password");
 
     let loginRequest = {
         username : userNameElement.value,
@@ -93,7 +99,8 @@ function loginHandler(event){
     .then(
         response => {
             if(!response.ok){
-                alert("Hiba tortent")
+                throw new Error("User not found!");
+               
             } else {
                 return response.json();
             }
@@ -101,15 +108,57 @@ function loginHandler(event){
     )
     .then(
         data => {
-            if(data.response == "OK"){
-                alert("Sikeres bejelentkezes")
+           
+                alert("Successful login!")
                 let gameTableElement = document.getElementById("gameTable");
                 gameTableElement.style.display = "block";
+                document.getElementById("name").innerHTML = data.username;
+                document.getElementById("lives").innerHTML = data.lives;
+                document.getElementById("record").innerHTML = data.record;
+                userId = data.id;
                 placeObject();
-            } else {
-                alert("Sikertelen bejelentkezes")
-            }
+           
+        }
+    ).catch(
+        error => {
+            alert("User not found");
         }
     )
    
+}
+
+function endGameRequest(gameResult){
+    let body = {
+        id: userId,
+        steps: stepsCounter,
+        win: gameFinished
+    }
+
+    fetch("http://localhost:8080/finish",
+        {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        }
+    ).then (
+        response => {
+            if(!response.ok){
+                throw new Error("User not found!");
+                
+            } else {
+                return response.json();
+            }
+        }
+    ).then (
+        data => {
+            document.getElementById("lives").innerHTML = data.lives;
+            document.getElementById("record").innerHTML = data.record;
+        }
+    ).catch(
+        error => {
+            alert("User not found!")
+        }
+    )
 }
