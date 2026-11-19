@@ -33,7 +33,7 @@ public class AppService {
 			dto = new UserResponseDTO(user.getId(),user.getUsername(), user.getLives(), user.getRecord());
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-			// erre gondoltál a keddi órán esetleg? azt írja a HttpStatus, hogy 404-et dob ha nem találja
+			
 		}
 		
 		return dto;
